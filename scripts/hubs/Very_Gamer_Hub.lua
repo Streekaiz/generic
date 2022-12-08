@@ -9,7 +9,7 @@
 
 ]]
 
-
+-- loadstring at bottom
 
 
 
@@ -202,3 +202,5 @@ getgenv().Unknown = {
     "https://raw.githubusercontent.com/1201for/V.G-Hub-Part-3/main/Bloxburg",
     "https://raw.githubusercontent.com/1201for/V.G-Hub-Part-3/main/Anime-Story",
 }
+
+loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G-Hub/main/V.Ghub'))()
