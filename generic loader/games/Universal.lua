@@ -3,6 +3,70 @@ local ESP = loadstring(game:HttpGet("https://kiriot22.com/releases/ESP.lua"))() 
 	stfu
 ]]
 
+getgenv().AimbotSettings = {
+		TeamCheck = true, -- Press ] to toggle
+		VisibleCheck = true,
+		IgnoreTransparency = false, -- if enabled, visible check will automatically filter transparent objects
+		IgnoredTransparency = 0.5, -- all parts with a transparency greater than this will be ignored (IgnoreTransparency has to be enabled)
+		RefreshRate = 10, -- how fast the aimbot updates (milliseconds)
+		Keybind = getgenv().A_24_c_9_21413_f,
+		ToggleKey = "RightBracket",
+		MaximumDistance = 300, -- Set this to something lower if you dont wanna lock on some random person across the map
+		AlwaysActive = false,
+		Aimbot = {
+			Enabled = true,
+			TargetPart = "Head",
+			Use_mousemoverel = true,
+			Strength = 100, -- 1% - 200%
+			AimType = "Hold", -- "Hold" or "Toggle"
+			AimAtNearestPart = false
+		},
+		AimAssist = {
+			Enabled = false,
+			MinFov = 15,
+			MaxFov = 80,
+			DynamicFov = true,
+			ShowFov = false, -- Shows Min & Max fov
+			Strength = 55, -- 1% - 100%
+			SlowSensitivity = true,
+			SlowFactor = 1.75, -- 1% - 10%
+			RequireMovement = true
+		},
+		FovCircle = {
+			Enabled = true,
+			Dynamic = true,
+			Radius = 100,
+			Transparency = 1,
+			Color = Color3.fromRGB(255,255,255),
+			NumSides = 64,
+		},
+		TriggerBot = {
+			Enabled = false,
+			Delay = 60, -- how long it waits before clicking (milliseconds)
+			Spam = true, -- for semi-auto weapons
+			ClicksPerSecond = 10, -- set this to 0 to get anything higher than 37 cps
+			UseKeybind = false, -- if enabled, your keybind must be held to use trigger bot
+		},
+		Crosshair = {
+			Enabled = false,
+			Transparency = 1,
+			TransparencyKeybind = 1, -- when the keybind is held, the crosshair's transparency will be changed to this
+			Color = Color3.fromRGB(255, 0, 0),
+			RainbowColor = false,
+			Length = 15,
+			Thickness = 2,
+			Offset = 0
+		},
+		Prediction = {
+			Enabled = false,
+			Strength = 2
+		},
+		Priority = {},
+		Whitelisted = {}, -- Username or User ID
+		WhitelistFriends = false, -- Automatically adds friends to the whitelist
+		Ignore = {} -- Raycast Ignore
+	}
+
 
 function doesthisguywannasafeconfigsornah()
     if getgenv().SaveConfigurations == true or getgenv().SaveConfigurations == nil then
@@ -191,6 +255,18 @@ local OFOVToggle = Tab.Player:AddToggle({
 	end    
 })
 
+Tab.Player:AddToggle({
+	Name = "Anchor",
+	Default = false,
+	Color = Color3.fromRGB(230, 67, 77),
+	Flag = "ANCHT",
+	Save = true,
+	Callback = function(Value)
+	    game:GetService("Players").LocalPlayer.Character:WaitForChild("HumanoidRootPart").Anchored = Value
+	end    
+})
+
+
 Tab.Player:AddSection({
 	Name = "Player Sliders"
 })
@@ -340,6 +416,83 @@ Tab.Render:AddColorpicker({
 		ESP.Color = Value
 	end	  
 })
+
+Tab.Combat:AddSection({
+	Name = "Aimbot"
+})
+
+Tab.Combat:AddSection({
+	Name = "Silent Aim"
+})
+
+Tab.Combat:AddToggle({
+	Name = "Enabled",
+	Default = false,
+	Flag = "SAET",
+	Save = true,
+	Callback = function(Value)
+	end    
+})
+
+Tab.Combat:AddToggle({
+	Name = "Team Check",
+	Default = false,
+	Flag = "SATCT",
+	Save = true,
+	Callback = function(Value)
+	end    
+})
+
+Tab.Combat:AddToggle({
+	Name = "Wall Check",
+	Default = false,
+	Flag = "SAWCT",
+	Save = true,
+	Callback = function(Value)
+	end    
+})
+
+Tab.Combat:AddDropdown({
+	Name = "Hit Part",
+	Default = "Head",
+	Flag = "SHPD",
+	Save = true,
+	Options = {"Head", "HumanoidRootPart", "Random"},
+	Callback = function(Value)
+	end    
+})
+
+Tab.Combat:AddDropdown({
+	Name = "Method",
+	Default = "Raycast",
+	Flag = "SAMD",
+	Save = true,
+	Options = {"Raycast","FindPartOnRay","FindPartOnRayWithWhitelist","FindPartOnRayWithIgnoreList","Mouse.Hit/Target"},
+	Callback = function(Value)
+	end    
+})
+
+Tab.Combat:AddSlider({
+	Name = "Hit chance",
+	Min = 0,
+	Max = 100,
+	Default = 100,
+	Color = Color3.fromRGB(255,255,255),
+	Increment = 1,
+	ValueName = "%",
+	Callback = function(Value)
+	end    
+})
+
+Tab.Combat:AddSection({
+	Name = "Aimbot FOV"
+})
+
+Tab.Combat:AddSection({
+	Name = "Silent Aim FOV"
+})
+
+
 
 Tab.Misc:AddButton({
 	Name = "Unload UI",
