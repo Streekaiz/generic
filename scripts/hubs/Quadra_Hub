@@ -1,0 +1,20 @@
+--[[
+ ▄▄ • ▪  ▄▄▄▄▄ ▄ .▄▄• ▄▌▄▄▄▄·    ▄▄·       • ▌ ▄ ·.     .▄▄ · ▄▄▄▄▄▄▄▄  ▄▄▄ .▄▄▄ .▄ •▄  ▄▄▄· ▪  ·▄▄▄▄•
+▐█ ▀ ▪██ •██  ██▪▐██▪██▌▐█ ▀█▪  ▐█ ▌▪ ▄█▀▄ ·██ ▐███▪    ▐█ ▀. •██  ▀▄ █·▀▄.▀·▀▄.▀·█▌▄▌▪▐█ ▀█ ██ ▪▀·.█▌
+▄█ ▀█▄▐█· ▐█.▪██▀▀██▌▐█▌▐█▀▀█▄  ██ ▄▄▐█▌.▐▌▐█ ▌▐▌▐█·    ▄▀▀▀█▄ ▐█.▪▐▀▀▄ ▐▀▀▪▄▐▀▀▪▄▐▀▀▄·▄█▀▀█ ▐█·▄█▀▀▀•
+▐█▄▪▐█▐█▌ ▐█▌·██▌▐▀▐█▄█▌██▄▪▐█  ▐███▌▐█▌.▐▌██ ██▌▐█▌    ▐█▄▪▐█ ▐█▌·▐█•█▌▐█▄▄▌▐█▄▄▌▐█.█▌▐█▪ ▐▌▐█▌█▌▪▄█▀
+·▀▀▀▀ ▀▀▀ ▀▀▀ ▀▀▀ · ▀▀▀ ·▀▀▀▀ ▀ ·▀▀▀  ▀█▄▀▪▀▀  █▪▀▀▀     ▀▀▀▀  ▀▀▀ .▀  ▀ ▀▀▀  ▀▀▀ ·▀  ▀ ▀  ▀ ▀▀▀·▀▀▀ • (z)
+]]
+
+--[[ Info Logged
+Loading the script
+Bypass attempts of the key system (we do not log IP's, HWID's or any other sensitive information.)
+Failed key checks
+Successful key checks
+]]
+--[[ Games
+Type or Die
+Shortest Answer Wins
+Longest Answer Wins
+]]
+loadstring(game:HttpGet("https://raw.githubusercontent.com/notxkid/Quadra/main/loader.lua"))()
