@@ -1,4 +1,7 @@
-
+--[[
+    A modified version of Orions UI Library
+    It simply is resized to be bigger, with other small changes.
+]]
 
 local UserInputService = game:GetService("UserInputService")
 local TweenService = game:GetService("TweenService")
@@ -456,7 +459,7 @@ function OrionLib:Init()
 				LoadCfg(readfile(OrionLib.Folder .. "/" .. game.GameId .. ".txt"))
 				OrionLib:MakeNotification({
 					Name = "Configuration",
-					Content = "Auto-loaded configuration for the game " .. game.GameId .. ".",
+					Content = "Loaded a configuration for game: " .. game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name .. ", " ..game.GameId,
 					Time = 5
 				})
 			end
