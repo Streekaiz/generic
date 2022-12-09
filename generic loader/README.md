@@ -1,5 +1,6 @@
 # Supported Games
 ```lua
+[+] Universal
 [+] Stand Upright
 ```
 # Loader
