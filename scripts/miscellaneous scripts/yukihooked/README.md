@@ -4,4 +4,5 @@
 
 combined this repository for a bunch of scripts instead of one
 
--- these scripts are meant for pf
+find more scripts at his github!
+https://github.com/yukihooked/phantom_forces
