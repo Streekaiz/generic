@@ -17,15 +17,23 @@ local OrionLib = {
 	Flags = {},
 	Themes = {
 		Default = {
-			Main = Color3.fromRGB(255, 25, 25),
+			Main = Color3.fromRGB(111, 25, 25),
 			Second = Color3.fromRGB(32, 32, 32),
 			Stroke = Color3.fromRGB(60, 60, 60),
 			Divider = Color3.fromRGB(60, 60, 60),
 			Text = Color3.fromRGB(240, 240, 240),
 			TextDark = Color3.fromRGB(150, 150, 150)
-		}
+		},
+		Tokyo_Night = {
+			Main = Color3.fromRGB(24, 24, 37),
+			Second = Color3.fromRGB(103, 89, 179),
+			Stroke = Color3.fromRGB(60, 60, 60),
+			Divider = Color3.fromRGB(60, 60, 60),
+			Text = Color3.fromRGB(240, 240, 240),
+			TextDark = Color3.fromRGB(150, 150, 150)
+		},	
 	},
-	SelectedTheme = "Default",
+	SelectedTheme = "Tokyo_Night",
 	Folder = nil,
 	SaveCfg = false
 }
