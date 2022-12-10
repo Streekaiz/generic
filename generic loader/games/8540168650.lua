@@ -1,203 +1,260 @@
-local name = game:GetService("Players").LocalPlayer.Name
-getgenv().Flags = { -- i know orion already has flags
-    Items = {
-        Farming = false,
-        WaitTime = 0.5,
-        Notification_Icon = "6034457092",
-        Notify = {
-            All = false,
-            K = false, -- ketchup
-            SA = false, -- stand arrow
-            CA = false, -- charged arrow
-            R = false, -- rokakaka
-            RA = false, -- requiem arrow
-            SM = false, -- stone mask
-            KM = false, -- kars mask
-            DD = false, -- dio diary,
-            GB = false, -- green baba
-        }
-    },
-}
-
-
-for _, v in pairs(game:GetService("Workspace").Items:GetChildren()) do
-    v.Handle.Anchored = false
+for _, items in pairs(game:GetService("Workspace").Items:GetChildren()) do
+	items.Handle.Anchored = false
 end
 
-
-
-local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
-local Window = OrionLib:MakeWindow({
-    Name = "generic script name", 
-    HidePremium = false,  -- 6022668955
-    SaveConfig = false,
-    IntroEnabled = true,
-    IntroText = "generic script name",
-    IntroIcon = "rbxassetid://6022668955",
-    Icon = "rbxassetid://6022668955",
-    CloseCallback = function(hack)
-    end
-})
-
-game:GetService("Workspace").Items.ChildAdded:Connect(function(v)
-    if getgenv().Flags.Items.Farming == true then
-    v.Handle.Anchored = false
-    end
-        if v.Name == "Stand Arrow" and getgenv().Flags.Items.Notify.SA then
-            OrionLib:MakeNotification({ Name = "An item spawned!", Content = "The item: "..v.Name.." Spawned!", Image = "rbxassetid://"..getgenv().Flags.Items.Notification_Icon, Time = 5})
-            elseif v.Name == "Charged Arrow" and getgenv().Flags.Items.Notify.CA then
-                OrionLib:MakeNotification({ Name = "An item spawned!", Content = "The item: "..v.Name.." Spawned!", Image = "rbxassetid://"..getgenv().Flags.Items.Notification_Icon, Time = 5})
-                elseif v.Name == "Rokakaka" and getgenv().Flags.Items.Notify.R then
-                    OrionLib:MakeNotification({ Name = "An item spawned!", Content = "The item: "..v.Name.." Spawned!", Image = "rbxassetid://"..getgenv().Flags.Items.Notification_Icon, Time = 5})
-                    elseif v.Name == "Requiem Arrow" and getgenv().Flags.Items.Notify.RA then
-                        OrionLib:MakeNotification({ Name = "An item spawned!", Content = "The item: "..v.Name.." Spawned!", Image = "rbxassetid://"..getgenv().Flags.Items.Notification_Icon, Time = 5})
-                        elseif getgenv().Flags.Items.Notify.All then
-                            OrionLib:MakeNotification({ Name = "An item spawned!", Content = "The item: "..v.Name.." Spawned!", Image = "rbxassetid://"..getgenv().Flags.Items.Notification_Icon, Time = 5})
-                        end
+game:GetService("Workspace").Items.ChildAdded:Connect(function(Child)
+    Child:WaitForChild("Handle").Anchored = false
 end)
 
+
+local Old = {
+    WS = game:GetService("Players").LocalPlayer.Character.Humanoid.WalkSpeed or game:GetService("Players").LocalPlayer.Character:WaitForChild("Humanoid").WalkSpeed or 16,
+    JP = game:GetService("Players").LocalPlayer.Character.Humanoid.JumpPower or game:GetService("Players").LocalPlayer.Character:WaitForChild("Humanoid").JumpPower or 50,
+    G = workspace.Gravity or 196,
+	FOV = game.workspace.CurrentCamera.FieldOfView or 70,
+	A = game:GetService("Lighting").Ambient,
+	B = game:GetService("Lighting").Brightness,
+    Name = game:GetService("Players").LocalPlayer.Name,
+    Display = game:GetService("Players").LocalPlayer.DisplayName,
+}
+
+function EquipRandomT()
+    local RandomTool = math.random(1, 3)
+	if RandomTool == 1 and game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("Stand Arrow") and game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("Stand Arrow").Handle.Anchored ~= true then
+		game:GetService("Players").LocalPlayer.Character.Humanoid:EquipTool(game.Players.LocalPlayer.Backpack:FindFirstChild("Stand Arrow"))
+		elseif RandomTool == 2 and game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("Rokakaka") and game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("Rokakaka").Handle.Anchored ~= true then
+			game:GetService("Players").LocalPlayer.Character.Humanoid:EquipTool(game.Players.LocalPlayer.Backpack:FindFirstChild("Rokakaka"))
+			elseif RandomTool == 3 and game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("Ketchup") and game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("Ketchup").Handle.Anchored ~= true then
+				game:GetService("Players").LocalPlayer.Character.Humanoid:EquipTool(game.Players.LocalPlayer.Backpack:FindFirstChild("Ketchup"))
+	end
+end
+local gmt = getrawmetatable(game)
+local oldindex = gmt.__index
+setreadonly(gmt, false)
+gmt.__index = newcclosure(function(Self, Key)
+    if tostring(Self) == "Humanoid" and tostring(Key) == "WalkSpeed" then
+        return
+    end
+    if tostring(Self) == "Humanoid" and tostring(Key) == "JumpPower" then
+        return
+    end
+    if tostring(Key) == "Gravity" then
+        return
+    end
+    return oldindex(Self, Key)
+end)
+local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/Streekaiz/generic/main/generic%20loader/resources/library.lua')))()
+local Window = OrionLib:MakeWindow({
+    Name = "stand upright | server age: ", 
+    HidePremium = true,
+	ConfigFolder = "generic_cfg",
+    SaveConfig = true,
+    IntroEnabled = true,
+    IntroText = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name,
+    IntroIcon = "rbxassetid://6022668955",
+    Icon = "rbxassetid://6022668955",
+})
+
 local Tab = {
-    Home = Window:MakeTab({ Name = "Home", Icon = "rbxassetid://6026568198", PremiumOnly = false }),
-    Items = Window:MakeTab({ Name = "Items", Icon = "rbxassetid://6034470800", PremiumOnly = false }),
-    Stands = Window:MakeTab({ Name = "Stands", Icon = "rbxassetid://6022668945", PremiumOnly = false }),
-    Lairs = Window:MakeTab({ Name = "Lairs", Icon = "rbxassetid://6035190846", PremiumOnly = false }),
-    Quests = Window:MakeTab({ Name = "Quests", Icon = "rbxassetid://6035190846", PremiumOnly = false }),
-    Render = Window:MakeTab({ Name = "Rendering", Icon = "rbxassetid://6031075931", PremiumOnly = false }),
-    Misc = Window:MakeTab({ Name = "Misc", Icon = "rbxassetid://6034509993", PremiumOnly = false }),
-
+    Home = Window:MakeTab({ Name = "Home", Icon = "rbxassetid://9792650361", PremiumOnly = false }),
+	Teleporting = Window:MakeTab({ Name = "Teleports", Icon = "rbxassetid://", PremiumOnly = false }),
+    Farming = Window:MakeTab({ Name = "Farming", Icon = "rbxassetid://", PremiumOnly = false }),
+	Player = Window:MakeTab({ Name = "Player", Icon = "rbxassetid://9792631906", PremiumOnly = false }),
+	Misc = Window:MakeTab({ Name = "Miscallaenous", Icon = "rbxassetid://9792633222", PremiumOnly = false }),
 }
 
-local Section = {
-	Item = {
-        Use = Tab.Items:AddSection({ Name = "Use Items" }),
-        Farm = Tab.Items:AddSection({ Name = "Farm Items" }),
-        Notify = Tab.Items:AddSection({ Name = "Notify On Spawn" }),
-    },
-    Info = Tab.Misc:AddSection({ Name = "Player Info" }),
-}
-
-Section.Item.Use:AddButton({
-	Name = "Rokakaka",
-	Callback = function()
-        if game.Players.LocalPlayer.Backpack:FindFirstChild("Rokakaka") then
-            game.Players.LocalPlayer.Character:WaitForChild("Humanoid"):EquipTool(game.Players.LocalPlayer.Backpack:FindFirstChild("Rokakaka"))
-            game.Players.LocalPlayer.Character:WaitForChild("Rokakaka").Use:FireServer()
-            else
-            OrionLib:MakeNotification({ Name = "You don't have the item to use.", Content = "Unable to find the item in your inventory.", Image = "rbxassetid://"..getgenv().Flags.Items.Notification_Icon, Time = 5 })
-        end
-  	end    
+Tab.Farming:AddSection({
+	Name = "Item Farm"
 })
 
-Section.Item.Use:AddButton({
-	Name = "Stand Arrow",
-	Callback = function()
-        if game.Players.LocalPlayer.Backpack:FindFirstChild("Stand Arrow") then
-            game.Players.LocalPlayer.Character:WaitForChild("Humanoid"):EquipTool(game.Players.LocalPlayer.Backpack:FindFirstChild("Stand Arrow"))
-            game.Players.LocalPlayer.Character:WaitForChild("Stand Arrow").Use:FireServer()
-            else
-            OrionLib:MakeNotification({ Name = "You don't have the item to use.", Content = "Unable to find the item in your inventory.", Image = "rbxassetid://"..getgenv().Flags.Items.Notification_Icon, Time = 5 })
-        end
-  	end    
-})
-
-Section.Item.Use:AddButton({
-	Name = "Charged Arrow",
-	Callback = function()
-        if game.Players.LocalPlayer.Backpack:FindFirstChild("Charged Arrow") then
-            game.Players.LocalPlayer.Character:WaitForChild("Humanoid"):EquipTool(game.Players.LocalPlayer.Backpack:FindFirstChild("Charged Arrow"))
-            game.Players.LocalPlayer.Character:WaitForChild("Charged Arrow").Use:FireServer()
-            else
-            OrionLib:MakeNotification({ Name = "You don't have the item to use.", Content = "Unable to find the item in your inventory.", Image = "rbxassetid://"..getgenv().Flags.Items.Notification_Icon, Time = 5 })
-        end
-  	end    
-})
-
-Section.Item.Use:AddButton({
-	Name = "Sell Ketchup [all]",
-	Callback = function()
-        if game.Players.LocalPlayer.Backpack:FindFirstChild("Ketchup") then
-            game:GetService("ReplicatedStorage").Events.SellKetchup:FireServer("Lots")
-            else
-            OrionLib:MakeNotification({ Name = "You don't have the item to use.", Content = "Unable to find the item in your inventory.", Image = "rbxassetid://"..getgenv().Flags.Items.Notification_Icon, Time = 5 })
-        end
-  	end    
-})
-
-Section.Item.Farm:AddToggle({
-	Name = "Autofarm",
+Tab.Farming:AddToggle({ -- thanks flags! 
+	Name = "Enable Item Farm",
 	Default = false,
+	Flag = "ITFT",
+	Save = true,
 	Callback = function(Value)
-        getgenv().Flags.Items.Farming = Value
-        if Value then
-            game:GetService("Players").LocalPlayer.Character.Humanoid.AutoRotate = false
-            else
-            game:GetService("Players").LocalPlayer.Character.Humanoid.AutoRotate = true
-        end
-        task.spawn(function()
-            while getgenv().Flags.Items.Farming == true do
-               for _, v in pairs(game:GetService("Workspace").Items:GetChildren()) do
-                    task.wait(0.1)
-                    game:GetService("Players").LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame = CFrame.new(v.Handle.Position)
-                    task.wait(getgenv().Flags.Items.WaitTime)
-                end
-                task.wait(0.05)
-            end
-        end)
+	    getgenv().itemfarm = Value
+	    while getgenv().itemfarm do
+			for _, items in pairs(game:GetService("Workspace").Items:GetChildren()) do
+				items.Handle.Anchored = false
+				task.wait(0.05)
+				game:GetService("Players").LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame = items.Handle.CFrame
+				EquipRandomT() task.wait(0.05) EquipRandomT() task.wait(0.05) 
+				task.wait(OrionLib.Flags['ITWV'].Value)
+			end
+			EquipRandomT()
+			task.wait()
+		end
 	end    
 })
 
-Section.Item.Farm:AddSlider({
-	Name = "Wait Time",
-	Min = 0,
-	Max = 1,
-	Default = 0.1,
-	Color = Color3.fromRGB(255,255,255),
-	Increment = 0.001,
+
+Tab.Farming:AddSlider({
+	Name = "Wait Value",
+	Min = 0.1,
+	Max = 2.5,
+	Default = 1,
+	Color = Color3.fromRGB(44, 118, 222),
+	Increment = 0.5,
 	ValueName = "%",
+	Flag = "ITWV",
+	Save = true,
 	Callback = function(Value)
-		getgenv().Flags.Items.WaitTime = Value
 	end    
 })
-Section.Item.Farm:AddParagraph("Warning", "The item farm gets stuck since it sometimes doesn't unanchor the handle. Ill make some future updates to combat this")
 
-Section.Item.Notify:AddToggle({
-	Name = "Notify on all items",
+
+
+
+
+
+Tab.Player:AddSection({
+	Name = "Player Toggles"
+})
+
+local OWSToggle = Tab.Player:AddToggle({ -- thanks flags! 
+	Name = "Walk Speed",
 	Default = false,
+	Color = Color3.fromRGB(230, 67, 77),
+	Flag = "WST",
+	Save = true,
 	Callback = function(Value)
-        getgenv().Flags.Items.Notify.All = Value
+		if Value ~= true then
+			game:GetService("Players").LocalPlayer.Character:WaitForChild("Humanoid").WalkSpeed = Old.WS
+		end
 	end    
 })
 
-Section.Item.Notify:AddToggle({
-	Name = "Notify on common items",
+local OJPToggle = Tab.Player:AddToggle({
+	Name = "Jump Power",
 	Default = false,
+	Color = Color3.fromRGB(230, 67, 77),
+	Flag = "JPT",
+	Save = true,
 	Callback = function(Value)
-        getgenv().Flags.Items.Notify.SA = Value
-        getgenv().Flags.Items.Notify.K = Value
-        getgenv().Flags.Items.Notify.CA = Value
-        getgenv().Flags.Items.Notify.R = Value
-        getgenv().Flags.Items.Notify.SM = Value
-        getgenv().Flags.Items.Notify.GB = Value
+		if Value ~= true then
+			game:GetService("Players").LocalPlayer.Character:WaitForChild("Humanoid").JumpPower = Old.JP
+		end
 	end    
 })
 
-Section.Item.Notify:AddToggle({
-	Name = "Notify on rare items",
+local OGToggle = Tab.Player:AddToggle({
+	Name = "Gravity",
 	Default = false,
+	Color = Color3.fromRGB(230, 67, 77),
+	Flag = "GT",
+	Save = true,
 	Callback = function(Value)
-        getgenv().Flags.Items.Notify.DD = Value
-        getgenv().Flags.Items.Notify.RA = Value
-        getgenv().Flags.Items.Notify.KM = Value
+	    if Value ~= true then
+			workspace.Gravity = Old.G
+		end
 	end    
 })
 
-local isad = Section.Info:AddLabel("Stand Attack Damage: "..tonumber(game:GetService("Workspace").Living[name].Stats.AttackDmg.Value))
-local ist = Section.Info:AddLabel("Stand Tier: "..game:GetService("Workspace").Living[name].Stats.StandTier.Value)
+local OFOVToggle = Tab.Player:AddToggle({
+	Name = "Field Of View",
+	Default = false,
+	Color = Color3.fromRGB(230, 67, 77),
+	Flag = "FOVT",
+	Save = true,
+	Callback = function(Value)
+		if Value then
+			workspace.CurrentCamera.FieldOfView = Old.FOV
+    	end
+	end    
+})
 
+Tab.Player:AddToggle({
+	Name = "Anchor",
+	Default = false,
+	Color = Color3.fromRGB(230, 67, 77),
+	Flag = "ANCHT",
+	Save = true,
+	Callback = function(Value)
+	    game:GetService("Players").LocalPlayer.Character:WaitForChild("HumanoidRootPart").Anchored = Value
+	end    
+})
+
+
+Tab.Player:AddSection({
+	Name = "Player Sliders"
+})
+
+
+Tab.Player:AddSlider({
+	Name = "Walk Speed Value",
+	Min = 0,
+	Max = 150,
+	Default = Old.WS,
+	Color = Color3.fromRGB(44, 118, 222),
+	Increment = 1,
+	ValueName = "%",
+	Flag = "WSV",
+	Save = true,
+	Callback = function(Value)
+	end    
+})
+
+Tab.Player:AddSlider({
+	Name = "Jump Power Value",
+	Min = 0,
+	Max = 150,
+	Default = Old.JP,
+	Color = Color3.fromRGB(44, 118, 222),
+	Increment = 1,
+	ValueName = "%",
+	Flag = "JPV",
+	Save = true,
+	Callback = function(Value)
+	end    
+})
+
+Tab.Player:AddSlider({
+	Name = "Gravity Value",
+	Min = 0,
+	Max = 196,
+	Default = Old.G,
+	Color = Color3.fromRGB(44, 118, 222),
+	Increment = 1,
+	ValueName = "%",
+	Flag = "GV",
+	Save = true,
+	Callback = function(Value)
+	end    
+})
+
+Tab.Player:AddSlider({
+	Name = "Field Of View Value",
+	Min = 0,
+	Max = 120,
+	Default = Old.FOV,
+	Color = Color3.fromRGB(230, 67, 77),
+	Increment = 1,
+	ValueName = "%",
+	Flag = "FOVV",
+	Save = true,
+	Callback = function(Value)
+	end    
+})
 
 
 game:GetService("RunService").RenderStepped:Connect(function()
-    ist:Set("Stand Tier: "..game:GetService("Workspace").Living[name].Stats.StandTier.Value)
-    isad:Set("Stand Attack Damage: "..tonumber(game:GetService("Workspace").Living[name].Stats.AttackDmg.Value))
-
+    if OrionLib.Flags['WST'].Value then
+		game:GetService("Players").LocalPlayer.Character:WaitForChild("Humanoid").WalkSpeed = OrionLib.Flags['WSV'].Value
+	end
+	if OrionLib.Flags['JPT'].Value then
+		game:GetService("Players").LocalPlayer.Character:WaitForChild("Humanoid").JumpPower = OrionLib.Flags['JPV'].Value
+	end
+	if OrionLib.Flags['GT'].Value then
+		cloneref(workspace).Gravity = OrionLib.Flags['GV'].Value
+	end
+	if OrionLib.Flags['FOVT'].Value then
+	    game.workspace.Camera.FieldOfView = OrionLib.Flags['FOVV'].Value
+	end
+	if OrionLib.Flags['ITFT'].Value then
+		game:GetService("Players").LocalPlayer.Character:WaitForChild("Humanoid").AutoRotate = false
+		game:GetService("Players").LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame = game:GetService("Players").LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame * CFrame.Angles(0, 0.25, 0)
+		else
+			game:GetService("Players").LocalPlayer.Character:WaitForChild("Humanoid").AutoRotate = true
+	end
 end)
