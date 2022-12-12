@@ -1,5 +1,6 @@
 local Games = {
     8540168650,  --- Stand Upright
+    8534845015,  --- Sakura Stand
 }
 
 for _, v in pairs(Games) do
