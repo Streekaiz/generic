@@ -39,20 +39,7 @@ Main:AddSection({
 local QBValue = Main:AddLabel("Quarter Back: boolean")
 local FBValue = Main:AddLabel("Fumble Chance: number")
 
-function Mag(Part) 
-    if Part and game:GetService("Players").LocalPlayer.Character ~= nil then
-        firetouchinterest(game:GetService("Players").LocalPlayer.Character["Left Arm"], Part, 0)
-        firetouchinterest(game:GetService("Players").LocalPlayer.Character["Right Arm"], Part, 0)
-        task.wait()
-        firetouchinterest(game:GetService("Players").LocalPlayer.Character["Left Arm"], Part, 1)
-        firetouchinterest(game:GetService("Players").LocalPlayer.Character["Right Arm"], Part, 1)
-    end
-end
-
-
-
-
-
+-- hi
 
 
 game:GetService("RunService").RenderStepped:Connect(function()
