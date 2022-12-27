@@ -23,7 +23,7 @@ Main:AddSection({
 Main:AddToggle({
 	Name = "Enable Legit Mag",
 	Default = false,
-    Flag = "MagToggle",
+        Flag = "MagToggle",
 	Color = Color3.fromRGB(219, 68, 136),
 	Callback = function(Value)
         getgenv().Settings.Mag = Value
@@ -37,7 +37,7 @@ Main:AddSection({
 Main:AddToggle({
 	Name = "Enable Triggerbot",
 	Default = false,
-    Flag = "Triggerbot",
+        Flag = "Triggerbot",
 	Color = Color3.fromRGB(219, 68, 136),
 	Callback = function(Value)
         getgenv().Settings.Triggerbot = Value
@@ -72,7 +72,7 @@ local FBValue = Main:AddLabel("Fumble Chance: number")
 game:GetService("RunService").RenderStepped:Connect(function()
    if getgenv().Settings.Mag == true and not game:GetService("ReplicatedStorage").Values.HomeQB.Value:match(game:GetService("Players").LocalPlayer.Name) and not game:GetService("ReplicatedStorage").Values.AwayQB.Value:match(game:GetService("Players").LocalPlayer.Name) then
         for i,v in pairs(workspace:GetChildren()) do
-            if v.Name == "Football" then
+            if v.Name == "Football" and v:IsA("BasePart") then
                 if game:GetService("Players").LocalPlayer.Character then
                    firetouchinterest(game:GetService("Players").LocalPlayer.Character["Left Arm"], v, 0)
                     firetouchinterest(game:GetService("Players").LocalPlayer.Character["Right Arm"], v, 0)
@@ -104,7 +104,7 @@ end)
 game:GetService("RunService").RenderStepped:Connect(function()
     if getgenv().Settings.Triggerbot == true and not game:GetService("ReplicatedStorage").Values.HomeQB.Value:match(game:GetService("Players").LocalPlayer.Name) and not game:GetService("ReplicatedStorage").Values.AwayQB.Value:match(game:GetService("Players").LocalPlayer.Name) then
 		for _, v in pairs(workspace:GetChildren()) do
-			if v.Name == "Football" then
+			if v.Name == "Football" and v:IsA("BasePart") then
 				local FootballDistance = (v.Position - game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).Magnitude
 				if FootballDistance < getgenv().Settings.TriggerbotDistance then
 					mouse1click()
