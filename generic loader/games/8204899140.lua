@@ -1,9 +1,8 @@
---[[
-    Football Fusion 2
-]]
-
+getgenv().Settings = {}
 getgenv().Settings = {
     Mag = false,
+	Triggerbot = false,
+	TriggerbotDistance = 5,
 }
 
 local OrionLib = loadstring(game:HttpGet('https://raw.githubusercontent.com/Streekaiz/generic/main/generic%20loader/resources/library.lua', true))()
@@ -30,6 +29,34 @@ Main:AddToggle({
         getgenv().Settings.Mag = Value
 	end    
 })
+
+Main:AddSection({
+	Name = "Triggerbot"
+})
+
+Main:AddToggle({
+	Name = "Enable Triggerbot",
+	Default = false,
+    Flag = "Triggerbot",
+	Color = Color3.fromRGB(219, 68, 136),
+	Callback = function(Value)
+        getgenv().Settings.Triggerbot = Value
+	end    
+})
+
+Main:AddSlider({
+	Name = "Slider",
+	Min = 0,
+	Max = 10,
+	Default = 5,
+	Color = Color3.fromRGB(219, 68, 136),
+	Increment = 1,
+	ValueName = "%",
+	Callback = function(Value)
+		getgenv().Settings.TriggerbotDistance = Value
+	end    
+})
+
 local MagValue = Main:AddLabel("Mag Enabled: boolean")
 
 Main:AddSection({
@@ -45,8 +72,7 @@ local FBValue = Main:AddLabel("Fumble Chance: number")
 game:GetService("RunService").RenderStepped:Connect(function()
    if getgenv().Settings.Mag == true and not game:GetService("ReplicatedStorage").Values.HomeQB.Value:match(game:GetService("Players").LocalPlayer.Name) and not game:GetService("ReplicatedStorage").Values.AwayQB.Value:match(game:GetService("Players").LocalPlayer.Name) then
         for i,v in pairs(workspace:GetChildren()) do
-            if v.Name == "Football" and v:IsA("BasePart") then
-                task.wait()
+            if v.Name == "Football" then
                 if game:GetService("Players").LocalPlayer.Character then
                    firetouchinterest(game:GetService("Players").LocalPlayer.Character["Left Arm"], v, 0)
                     firetouchinterest(game:GetService("Players").LocalPlayer.Character["Right Arm"], v, 0)
@@ -74,4 +100,16 @@ task.spawn(function()
 		FBValue:Set("Fumble Chance: "..game.ReplicatedStorage.Values.Rule_Fumble.Value)
 	end
 
+end)
+game:GetService("RunService").RenderStepped:Connect(function()
+    if getgenv().Settings.Triggerbot == true and not game:GetService("ReplicatedStorage").Values.HomeQB.Value:match(game:GetService("Players").LocalPlayer.Name) and not game:GetService("ReplicatedStorage").Values.AwayQB.Value:match(game:GetService("Players").LocalPlayer.Name) then
+		for _, v in pairs(workspace:GetChildren()) do
+			if v.Name == "Football" then
+				local FootballDistance = (v.Position - game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).Magnitude
+				if FootballDistance < getgenv().Settings.TriggerbotDistance then
+					mouse1click()
+				end	
+			end
+		end
+	end
 end)
