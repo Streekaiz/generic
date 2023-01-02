@@ -471,7 +471,35 @@ local Game_Dropdown = Tab.Scripts:AddDropdown({
 	Name = "Select Game",
 	Default = "None",
 	Flag = "Game_Dropdown",
-	Options = {"None", "Anime_Adventures.lua", "Bedwars.lua", "Busy_Buisness.lua", "Bee_Swarm_Simulator.lua", "Combat_Warriors.lua", "Dark_Life.lua", "Doors.lua", "Fruit_BattleGrounds.lua", "Jailbreak.lua", "Labyrinth.lua", 'Mount_Of_The_Gods.lua', "Murder_Mystery_2.lua", "My_Resturant.lua", "Neon_Knights.lua", "PLS_Donate.lua", "Pet_Simulator_X.lua", "Road_To_Gamby.lua", "SKYWARS.lua", "Site_76.lua", "Stand_Upright_Rebooted.lua", "Wind_Of_Fortune.lua", "World_Zero.lua"},
+	Options = {
+      "Anime_Adventrues.lua", 
+      "Bedwars.lua", 
+      "Bee_Swarm_Simulator.lua",
+      "Big_Paintball.lua", 
+      "Combat_Warriors.lua", 
+      "DBZ.lua", 
+      "Dark_Life.lua", 
+      "Doors.lua", 
+      "Fruit_BattleGrounds.lua", 
+      "Jailbreak.lua", 
+      "Labyrinth.lua", 
+      "Mount_Of_The_Gods.lua", 
+      "Murder_Mystery_2.lua", 
+      "My_Resturant.lua", 
+      "Neon_Knights.lua", 
+      "New_PLS_Donate.lua", 
+      "Pet_Simulator_X.lua", 
+      "Road_To_Gamby.lua", 
+      "SKYWARS.lua", 
+      "Shoot_Out.lua", 
+      "Site_76.lua", 
+      "Stand_Upright_Rebooted.lua", 
+      "Super_Bomb_Survival.lua", 
+      "Total_Drama.lua", 
+      "Wind_Of_Fortune.lua", 
+      "World_Zero.lua", 
+      "ZO.lua"
+   }
 	Callback = function(Value)
 	Game_To_Load = Value
 	end    
