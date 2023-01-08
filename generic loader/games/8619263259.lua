@@ -1,8 +1,53 @@
-_G.Debug = true
+
+local Settings = {
+	AutoActive = {
+		[1] = false,
+		Wait1 = 0,
+		[2] = false,
+		Wait2 = 0,
+		[3] = false,
+		Wait3 = 0
+	},
+	BM = {
+		Notify = false
+	}
+}
 local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Rayfield/main/source'))()
 
+Rayfield:Notify({
+    Title = "Welcome " .. game:GetService("Players").LocalPlayer.Name .. ".",
+    Content = "Join our discord, not required but you'll benefit from many things.",
+    Duration = 5,
+    Image = 9838874163,
+    Actions = {
+        Ignore = {
+            Name = "shut the fuck up bruh",
+            Callback = function()
+            end
+    	},
+		YEEEEEEEESSSSSSss = {
+			Name = "Copy Discord Link",
+			Callback = function()
+		        if setclipboard then
+					setclipboard("https://discord.gg/Kc5KPJ4Hqc")
+				else
+					toclipboard("https://discord.gg/Kc5KPJ4Hqc")
+				end
+			end
+		}
+    },
+})
+
+Rayfield:Notify({
+    Title = "Debug Info",
+    Content = "Use this notification to help me fix issues. Thanks!\n[Version 1.1] [" .. identifyexecutor() .. "] [" .. math.round(tonumber(string.split(game:GetService("Stats").Network.ServerStatsItem["Data Ping"]:GetValueString(), ' ')[1])) .."] [" .. string.format( "%02dd:%02dh:%02dm:%02ds", math.floor( elapsedTime() / 86400 % 24 ),  math.floor( elapsedTime() / 3600 % 60 ), math.floor( elapsedTime() / 60 % 60 ), math.floor( elapsedTime() % 60 ) ) .. "]",
+    Duration = 15,
+    Image = 9838874163,
+    Actions = {},
+})
+
 local Window = Rayfield:CreateWindow({
-   Name = "Critical Legends | streekaiz#1132",
+   Name = "Critical Legends V1.1 | streekaiz#1132",
    LoadingTitle = "Critical Legends",
    LoadingSubtitle = "created by streekaiz#1132",
    ConfigurationSaving = {
@@ -11,12 +56,14 @@ local Window = Rayfield:CreateWindow({
       FileName = "#"
    },
 })
-local Tab = {
+local Tab = { 
 	Combat = Window:CreateTab("Combat"),
 	Player = Window:CreateTab("Player"),
 	Teleport = Window:CreateTab("Teleports"),
 	Material = Window:CreateTab("Materials"),
+	BM = Window:CreateTab("Black Market"),
 	Chests = Window:CreateTab("Chests"),
+	Actives = Window:CreateTab("Actives"),
 	Settings = Window:CreateTab("Settings", 6034509993),
 }
 
@@ -137,3 +184,114 @@ Tab.Chests:CreateSection("List of items you can get from a chest") do
 		Tab.Chests:CreateLabel(i .. " " .. v.Name)
 	end
 end
+Tab.Actives:CreateSection("Autouse Actives") do
+	Tab.Actives:CreateSection(" Active 1") do
+		Tab.Actives:CreateToggle({
+            Name = "Autouse Active 1",
+            CurrentValue = false,
+            Flag = "Active1",
+            Callback = function(Value)
+			    Settings.AutoActive[1] = Value
+            end,
+        })
+		Tab.Actives:CreateSlider({
+ 		    Name = "Active 1 Delay",
+  		    Range = {0, 60},
+  		    Increment = 1,
+ 		    Suffix = "%",
+  		    CurrentValue = 5,
+ 		    Flag = "Active1Delay",
+ 		    Callback = function(Value)
+			    Settings.AutoActive.Wait1 = Value
+ 		    end,
+		})
+	end
+	Tab.Actives:CreateSection(" Active 2") do
+		Tab.Actives:CreateToggle({
+            Name = "Autouse Active 2",
+            CurrentValue = false,
+            Flag = "Active2",
+            Callback = function(Value)
+			    Settings.AutoActive[2] = Value
+            end,
+        })
+		Tab.Actives:CreateSlider({
+ 		    Name = "Active 2 Delay",
+  		    Range = {0, 60},
+  		    Increment = 1,
+ 		    Suffix = "%",
+  		    CurrentValue = 5,
+ 		    Flag = "Active2Delay",
+ 		    Callback = function(Value)
+			    Settings.AutoActive.Wait2 = Value
+ 		    end,
+		})
+	end
+	Tab.Actives:CreateSection(" Active 3") do
+		Tab.Actives:CreateToggle({
+            Name = "Autouse Active 3",
+            CurrentValue = false,
+            Flag = "Active3",
+            Callback = function(Value)
+			    Settings.AutoActive[3] = Value
+            end,
+        })
+		Tab.Actives:CreateSlider({
+ 		    Name = "Active 3 Delay",
+  		    Range = {0, 60},
+  		    Increment = 1,
+ 		    Suffix = "%",
+  		    CurrentValue = 5,
+ 		    Flag = "Active3Delay",
+ 		    Callback = function(Value)
+			    Settings.AutoActive.Wait3 = Value
+ 		    end,
+		})
+	end
+end
+Tab.BM:CreateSection("Status")
+local BMStatus = Tab.BM:CreateLabel("The black market has: if you see this report bug pls thx")
+
+Tab.BM:CreateSection("Notifications") do
+	Tab.BM:CreateToggle({
+        Name = "Notify on black market spawning",
+        CurrentValue = false,
+        Flag = "NotifyBM",
+        Callback = function(Value)
+        end,
+    })
+	Tab.BM:CreateParagraph({
+		Title = "Info",
+		Content = "The notifications will have options to teleport, so you wont have to open the UI to teleport. We plan to display BM's content in notifications."
+	})
+end
+
+Tab.BM:CreateSection("Teleport") do
+	Tab.Chests:CreateButton({
+        Name = "Teleport to BM",
+        Callback = function()
+		    game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(workspace.Stalls:FindFirstChildWhichIsA("BasePart").Position)
+        end,
+    })
+end
+
+task.spawn(function()
+    while true do
+		if Settings.AutoActive[1] then
+            game:GetService("ReplicatedStorage").Server:FireServer("UseItem", 1)
+		end
+		task.wait(Settings.AutoActive.Wait1)
+	end
+	while true do
+		if Settings.AutoActive[2] then
+			game:GetService("ReplicatedStorage").Server:FireServer("UseItem", 2)
+		end
+		task.wait(Settings.AutoActive.Wait2)
+	end
+	while true do
+		if Settings.AutoActive[3] then
+			game:GetService("ReplicatedStorage").Server:FireServer("UseItem", 3)
+		end
+		task.wait(Settings.AutoActive.Wait3)
+	end
+end)
